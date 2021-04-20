@@ -1,3 +1,4 @@
+**/docker/**
 **/.classpath
 **/.dockerignore
 **/.env
@@ -21,4 +22,17 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+
+.DS_Store
+
+.vscode
+db
+dist
+node_modules
+static
+.editorconfig
+.eslintrc.js
+.gitignore
+.prettierrc
 README.md
+*.log
