@@ -25,7 +25,8 @@
     "docker:staging:down": "docker-compose -f docker/staging/docker-compose.yml down",
     "docker:dev:restart": "yarn docker:dev:down && yarn docker:dev:up",
     "docker:staging:restart": "yarn docker:staging:down && yarn docker:staging:up",
-    "docker:dev:logs": "docker logs -f api-backend"
+    "docker:dev:logs": "docker logs -f api-backend",
+    "dev": "yarn docker:dev:up -d && yarn docker:dev:logs"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",

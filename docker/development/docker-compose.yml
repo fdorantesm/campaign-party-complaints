@@ -10,7 +10,6 @@ services:
     volumes: 
       - ../../src:/usr/src/app/src
       - /usr/src/app/node_modules
-      - /usr/src/app/dist
     ports:
       - ${APP_PORT}:${APP_PORT}
     env_file:
@@ -18,45 +17,44 @@ services:
     networks:
       lan:
         ipv4_address: ${COMPOSE_LAN_API_BACKEND_IP}
-    # depends_on: 
-    #   - api-db
-    #   - api-static
-  # api-db:
-  #   container_name: api-db
-  #   image: mongo:4
-  #   restart: always
-  #   ports:
-  #     - ${API_MONGODB_PORT}:${API_MONGODB_PORT}
-  #   environment:
-  #     - MONGO_INITDB_DATABASE=${API_MONGODB_DATABASE}
-  #     - MONGO_INITDB_ROOT_USERNAME=${API_MONGODB_USER}
-  #     - MONGO_INITDB_ROOT_PASSWORD=${API_MONGODB_PASSWORD}
-  #   volumes:
-  #     - ../../${COMPOSE_API_DB_VOLUMES_BASE_PATH}:/data/db
-  #   networks:
-  #     lan:
-  #       ipv4_address: ${COMPOSE_LAN_API_DB_IP}
-  # api-static:
-    # container_name: api-static
-    # image: minio/minio:latest
-    # volumes:
-    #   - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
-    # ports:
-    #   - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
-    # environment:
-    #   MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
-    #   MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
-    #   MINIO_DEFAULT_BUCKETS: ${API_S3_BUCKET}
-    # networks:
-    #   lan:
-    #     ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
-    # command: server ${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}
-    # healthcheck:
-    #   test:
-    #     ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
-    #   interval: 30s
-    #   timeout: 20s
-    #   retries: 3
+    depends_on: 
+      - api-db
+      - api-static
+  api-db:
+    container_name: api-db
+    image: mongo:4
+    restart: always
+    ports:
+      - ${API_MONGODB_PORT}:${API_MONGODB_PORT}
+    environment:
+      - MONGO_INITDB_DATABASE=${API_MONGODB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${API_MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${API_MONGODB_PASSWORD}
+    volumes:
+      - ../../${COMPOSE_API_DB_VOLUMES_BASE_PATH}:/data/db
+    networks:
+      lan:
+        ipv4_address: ${COMPOSE_LAN_API_DB_IP}
+  api-static:
+    container_name: api-static
+    image: docker.io/bitnami/minio:2021
+    volumes:
+      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
+    ports:
+      - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
+    environment:
+      MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
+      MINIO_DEFAULT_BUCKETS: default,${API_S3_BUCKET}
+    networks:
+      lan:
+        ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
+    healthcheck:
+      test:
+        ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
+      interval: 30s
+      timeout: 20s
+      retries: 3
 networks:
   lan:
     driver: bridge

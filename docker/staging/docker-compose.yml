@@ -37,7 +37,7 @@ services:
         ipv4_address: ${COMPOSE_LAN_API_DB_IP}
   api-static:
     container_name: api-static
-    image: minio/minio:latest
+    image: docker.io/bitnami/minio:2021
     volumes:
       - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
     ports:
@@ -45,11 +45,10 @@ services:
     environment:
       MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
       MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
-      MINIO_DEFAULT_BUCKETS: ${API_S3_BUCKET}
+      MINIO_DEFAULT_BUCKETS: default,${API_S3_BUCKET}
     networks:
       lan:
         ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
-    command: server ${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}
     healthcheck:
       test:
         ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
