@@ -9,7 +9,9 @@ services:
     container_name: api-backend
     volumes: 
       - ../../src:/usr/src/app/src
-      - /usr/src/app/node_modules
+      - ../../package.json:/usr/src/app/package.json
+      - ../../yarn.lock:/usr/src/app/yarn.lock
+      - ../../node_modules:/usr/src/app/node_modules
     ports:
       - ${APP_PORT}:${APP_PORT}
     env_file:

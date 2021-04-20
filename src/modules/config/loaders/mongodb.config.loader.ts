@@ -5,10 +5,10 @@ export const mongodbConfigLoader = registerAs('mongodb', (): {
   [key: string]: MongodbConfigType;
 } => ({
   main: {
-    server: process.env.MONGODB_SERVER,
-    port: parseInt(process.env.MONGODB_PORT),
-    database: process.env.MONGODB_DATABASE,
-    user: process.env.MONGODB_USER,
-    password: process.env.MONGODB_PASSWORD,
+    server: process.env.API_MONGODB_HOST,
+    port: parseInt(process.env.API_MONGODB_PORT),
+    database: process.env.API_MONGODB_DATABASE,
+    user: process.env.API_MONGODB_USER,
+    password: process.env.API_MONGODB_PASSWORD,
   },
 }));
