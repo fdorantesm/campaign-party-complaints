@@ -12,4 +12,10 @@ RUN yarn install
 
 COPY . .
 
+# COPY src src
+# COPY test test
+# COPY nest-cli.json .
+# COPY tsconfig.json .
+# COPY tsconfig.build.json .
+
 RUN yarn build
