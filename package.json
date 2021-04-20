@@ -18,7 +18,14 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "docker:dev:up": "docker-compose -f docker/development/docker-compose.yml up",
+    "docker:dev:down": "docker-compose -f docker/development/docker-compose.yml down",
+    "docker:staging:up": "docker-compose -f docker/staging/docker-compose.yml up",
+    "docker:staging:down": "docker-compose -f docker/staging/docker-compose.yml down",
+    "docker:dev:restart": "yarn docker:dev:down && yarn docker:dev:up",
+    "docker:staging:restart": "yarn docker:staging:down && yarn docker:staging:up",
+    "docker:dev:logs": "docker logs -f api-backend"
   },
   "dependencies": {
     "@nestjs/common": "^7.5.1",
@@ -29,7 +36,7 @@
     "rxjs": "^6.6.3"
   },
   "devDependencies": {
-    "@nestjs/cli": "^7.5.1",
+    "@nestjs/cli": "^7.6.0",
     "@nestjs/schematics": "^7.1.3",
     "@nestjs/testing": "^7.5.1",
     "@types/express": "^4.17.8",
