@@ -1,26 +1,40 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Types } from 'mongoose';
+import { ConfigService } from '@nestjs/config';
 
-import { TokenPayload } from '../types/token-payload.type';
-import { JwtPayload } from '../types/jwt-payload.type';
+import { TokenPayloadType } from '../types/token-payload.type';
+import { UserEntity } from '../../user/entities/user.entity';
+import { UserService } from '../../user/services/user.service';
+import { JwtConfigType } from '../../config/types/jwt.config.type';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(
+    private readonly userService: UserService,
+    private readonly configService: ConfigService,
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'secret',
+      secretOrKey: configService.get<JwtConfigType>('jwt').secret,
     });
   }
 
-  async validate(payload: TokenPayload): Promise<JwtPayload> {
-    return {};
+  async validate(payload: TokenPayloadType): Promise<TokenPayloadType> {
+    const user = await this.loadUser(payload.id);
+    if (!user) {
+      throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
+    }
+    return {
+      id: user.id,
+    };
   }
 
-  private async loadUser(userId: Types.ObjectId): Promise<any> {
-    return {};
+  private loadUser(userId: Types.ObjectId): Promise<UserEntity> {
+    return this.userService.findOne({
+      _id: userId,
+    });
   }
 }

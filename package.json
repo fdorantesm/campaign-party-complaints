@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
@@ -31,19 +31,23 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "@meanie/mongoose-to-json": "^2.5.0",
-    "@nestjs/common": "^7.5.1",
+    "@nestjs/common": "^7.6.15",
     "@nestjs/config": "^0.6.3",
-    "@nestjs/core": "^7.5.1",
+    "@nestjs/core": "^7.6.15",
     "@nestjs/jwt": "^7.2.0",
     "@nestjs/mongoose": "^7.2.4",
     "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.5.1",
     "aws-sdk": "^2.889.0",
+    "bcrypt": "^5.0.1",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
     "deep-populate": "^1.0.0",
     "mongoose": "^5.12.5",
     "mongoose-delete": "^0.5.3",
     "mongoose-paginate": "^5.0.3",
     "mongoose-query-parser": "^1.1.9",
+    "mongoose-unique-validator": "^2.0.3",
     "mongoose-uuid": "^0.0.2",
     "nestjs-s3": "^1.0.1",
     "passport": "^0.4.1",
@@ -52,7 +56,8 @@
     "ramda": "^0.27.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.6.3"
+    "rxjs": "^6.6.3",
+    "uuid-apikey": "^1.5.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.6.0",
@@ -60,11 +65,12 @@
     "@nestjs/testing": "^7.5.1",
     "@types/express": "^4.17.8",
     "@types/jest": "^26.0.15",
-    "@types/node": "^14.14.6",
     "@types/joi": "^17.2.3",
     "@types/mongoose-paginate": "^5.0.8",
+    "@types/node": "^14.14.6",
     "@types/passport-jwt": "^3.0.3",
     "@types/supertest": "^2.0.10",
+    "@types/uuid-apikey": "^1.4.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "eslint": "^7.12.1",
@@ -85,7 +91,7 @@
       "json",
       "ts"
     ],
-    "rootDir": "src",
+    "rootDir": ".",
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {
       "^.+\\.(t|j)s$": "ts-jest"
@@ -93,7 +99,17 @@
     "collectCoverageFrom": [
       "**/*.(t|j)s"
     ],
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
+    "coverageDirectory": "./coverage",
+    "testEnvironment": "node",
+    "roots": [
+      "<rootDir>/src/",
+      "<rootDir>/libs/"
+    ],
+    "moduleNameMapper": {
+      "@app/mongoose-uuid/(.*)": "<rootDir>/libs/mongoose-uuid/src/$1",
+      "@app/mongoose-uuid": "<rootDir>/libs/mongoose-uuid/src",
+      "@app/mongoose-eloquent/(.*)": "<rootDir>/libs/mongoose-eloquent/src/$1",
+      "@app/mongoose-eloquent": "<rootDir>/libs/mongoose-eloquent/src"
+    }
   }
 }

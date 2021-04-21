@@ -1,27 +1,29 @@
 version: '3.8'
 
 services:
-  api-backend:
-    build:
-      context: ../..
-      dockerfile: docker/development/Dockerfile
-    entrypoint: yarn start:dev
-    container_name: api-backend
-    volumes: 
-      - ../../src:/usr/src/app/src
-      - ../../package.json:/usr/src/app/package.json
-      - ../../yarn.lock:/usr/src/app/yarn.lock
-      - ../../node_modules:/usr/src/app/node_modules
-    ports:
-      - ${APP_PORT}:${APP_PORT}
-    env_file:
-      - ../../.env
-    networks:
-      lan:
-        ipv4_address: ${COMPOSE_LAN_API_BACKEND_IP}
-    depends_on: 
-      - api-db
-      - api-static
+  # api-backend:
+  #   build:
+  #     context: ../..
+  #     dockerfile: docker/development/Dockerfile
+  #   entrypoint: yarn start:dev
+  #   container_name: api-backend
+  #   volumes: 
+  #     - ../../src:/usr/src/app/src
+  #     - ../../package.json:/usr/src/app/package.json
+  #     - ../../yarn.lock:/usr/src/app/yarn.lock
+  #     - ../../.env:/usr/src/app/.env
+  #     - ../../dist:/usr/src/app/dist
+  #     - ../../node_modules:/usr/src/app/node_modules
+  #   ports:
+  #     - ${APP_PORT}:${APP_PORT}
+  #   env_file:
+  #     - ../../.env
+  #   networks:
+  #     lan:
+  #       ipv4_address: ${COMPOSE_LAN_API_BACKEND_IP}
+  #   depends_on: 
+  #     - api-db
+  #     - api-static
   api-db:
     container_name: api-db
     image: mongo:4
@@ -41,7 +43,7 @@ services:
     container_name: api-static
     image: docker.io/bitnami/minio:2021
     volumes:
-      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
+      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data
     ports:
       - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
     environment:

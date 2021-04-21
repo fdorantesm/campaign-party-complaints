@@ -8,6 +8,9 @@ import { JwtConfigType } from '../config/types/jwt.config.type';
 import { UserModule } from '../user/user.module';
 import { CommonModule } from '../common/common.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { AuthService } from './services/auth.service';
+import { ApikeyStrategy } from './strategies/apikey.strategy';
+import { AuthController } from './controllers/auth.controller';
 
 @Module({
   imports: [
@@ -30,8 +33,8 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     UserModule,
     CommonModule,
   ],
-  providers: [PassportModule, JwtStrategy],
-  controllers: [],
-  exports: [],
+  providers: [PassportModule, JwtStrategy, ApikeyStrategy, AuthService],
+  controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

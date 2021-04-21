@@ -11,7 +11,7 @@ export type configKeyTypes =
 
 export const configLoader = (): ConfigType => ({
   server: {
-    tz: process.env.TZ,
+    tz: process.env.TZ || 'UTC',
     port: parseInt(process.env.APP_PORT, 10),
     securePort: parseInt(process.env.APP_SECURE_PORT, 10),
     debug: process.env.APP_DEBUG === 'true',
@@ -28,6 +28,7 @@ export const configLoader = (): ConfigType => ({
   jwt: {
     secret: process.env.JWT_SECRET,
     expires: process.env.JWT_EXPIRES,
+    salts: Number(process.env.JWT_SALTS),
   },
   aws: {
     accessKey: process.env.AWS_ACCESS_KEY,

@@ -1,4 +1,27 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "projects": {
+    "mongoose-uuid": {
+      "type": "library",
+      "root": "libs/mongoose-uuid",
+      "entryFile": "index",
+      "sourceRoot": "libs/mongoose-uuid/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mongoose-uuid/tsconfig.lib.json"
+      }
+    },
+    "mongoose-eloquent": {
+      "type": "library",
+      "root": "libs/mongoose-eloquent",
+      "entryFile": "index",
+      "sourceRoot": "libs/mongoose-eloquent/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/mongoose-eloquent/tsconfig.lib.json"
+      }
+    }
+  },
+  "compilerOptions": {
+    "webpack": true
+  }
 }

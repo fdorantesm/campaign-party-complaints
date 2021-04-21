@@ -3,9 +3,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate';
-import * as mongooseUuid from 'mongoose-uuid';
+import { mongooseUuid } from '@app/mongoose-uuid';
+import { mongooseEloquent } from '@app/mongoose-eloquent';
 import { S3Module } from 'nestjs-s3';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
+
 import { mongodbConfigLoader, s3ConfigLoader } from '../config/loaders';
 import { options } from '../config/options/config.options';
 import { MongodbConfigType } from '../config/types/mongodb-config.type';
@@ -23,6 +25,7 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
         let uri: string;
         const debug = configService.get<boolean>('server.debug');
         const config = configService.get<MongodbConfigType>('mongodb.main');
+
         if (debug) {
           mongoose.set('debug', true);
         }
@@ -53,7 +56,7 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             connection.plugin(require('@meanie/mongoose-to-json'));
             connection.plugin(mongooseUuid);
-            // connection.plugin(mongooseEloquent);
+            connection.plugin(mongooseEloquent);
             return connection;
           },
         };
