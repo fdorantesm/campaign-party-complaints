@@ -17,12 +17,6 @@
       ],
       "@app/mongoose-uuid/*": [
         "libs/mongoose-uuid/src/*"
-      ],
-      "@app/mongoose-eloquent": [
-        "libs/mongoose-eloquent/src"
-      ],
-      "@app/mongoose-eloquent/*": [
-        "libs/mongoose-eloquent/src/*"
       ]
     }
   }

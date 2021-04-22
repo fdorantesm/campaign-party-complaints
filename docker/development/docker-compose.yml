@@ -25,7 +25,7 @@ services:
   #     - api-db
   #     - api-static
   api-db:
-    container_name: api-db
+    container_name: ${COMPOSE_PROJECT_NAME}_api-db
     image: mongo:4
     restart: always
     ports:
@@ -40,7 +40,7 @@ services:
       lan:
         ipv4_address: ${COMPOSE_LAN_API_DB_IP}
   api-static:
-    container_name: api-static
+    container_name: ${COMPOSE_PROJECT_NAME}_api-static
     image: docker.io/bitnami/minio:2021
     volumes:
       - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data

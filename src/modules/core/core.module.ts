@@ -4,7 +4,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate';
 import { mongooseUuid } from '@app/mongoose-uuid';
-import { mongooseEloquent } from '@app/mongoose-eloquent';
 import { S3Module } from 'nestjs-s3';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
@@ -56,7 +55,6 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
             // eslint-disable-next-line @typescript-eslint/no-var-requires
             connection.plugin(require('@meanie/mongoose-to-json'));
             connection.plugin(mongooseUuid);
-            connection.plugin(mongooseEloquent);
             return connection;
           },
         };

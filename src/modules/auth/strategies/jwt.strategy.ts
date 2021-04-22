@@ -28,7 +28,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
     return {
-      id: user.id,
+      id: Types.ObjectId(user.id),
+      account: user.account,
     };
   }
 

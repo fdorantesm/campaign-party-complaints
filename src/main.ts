@@ -9,7 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 
-import { AppModule } from './modules/app.module';
+import { AppModule } from './app.module';
 import { ServerConfigType } from './modules/config/types/server.type';
 
 declare const module: any;

@@ -12,8 +12,6 @@
   },
   "moduleNameMapper": {
     "@app/mongoose-uuid/(.*)": "<rootDir>/../libs/mongoose-uuid/src/$1",
-    "@app/mongoose-uuid": "<rootDir>/../libs/mongoose-uuid/src",
-    "@app/mongoose-eloquent/(.*)": "<rootDir>/../libs/mongoose-eloquent/src/$1",
-    "@app/mongoose-eloquent": "<rootDir>/../libs/mongoose-eloquent/src"
+    "@app/mongoose-uuid": "<rootDir>/../libs/mongoose-uuid/src"
   }
 }

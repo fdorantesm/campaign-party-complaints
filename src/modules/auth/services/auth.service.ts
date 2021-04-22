@@ -13,6 +13,7 @@ import { JwtPayload } from '../types/jwt-payload.type';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
 import { LeanDocument } from 'mongoose';
+import { AccountService } from '../../account/services/account.service';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,7 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly hashService: HashService,
     private readonly jwtService: JwtService,
+    private readonly accountService: AccountService,
   ) {}
   public async login(data: LoginDto): Promise<JwtPayload> {
     const user = await this.userService.findOne(
@@ -31,11 +33,12 @@ export class AuthService {
     if (user) {
       const match = await this.hashService.match(data.password, user.password);
       if (match) {
-        const payload = {
+        const payload: TokenPayloadType = {
           id: user.id,
+          account: user.account,
         };
         const accessToken = await this.createToken(payload);
-        Logger.log(user.id, 'User logged');
+        Logger.log(`${user.id} logged in`, 'AuthService');
         return accessToken;
       }
     }
@@ -46,7 +49,17 @@ export class AuthService {
   public async register(data: RegisterDto): Promise<LeanDocument<UserEntity>> {
     const exists = await this.userService.findOne({ email: data.email });
     if (!exists) {
+      const publicAccount = await this.accountService.findOne(
+        {
+          public: true,
+          name: 'Public',
+        },
+        {
+          _id: 1,
+        },
+      );
       const user = await this.userService.create({
+        account: publicAccount._id,
         name: data.name,
         email: data.email,
         phone: data.phone,
@@ -61,7 +74,6 @@ export class AuthService {
   }
 
   public async me(request: any): Promise<LeanDocument<UserEntity>> {
-    console.log(request.user);
     const user = await this.userService.findOne({ _id: request.user.id });
     return user.toJSON();
   }

@@ -10,15 +10,6 @@
       "compilerOptions": {
         "tsConfigPath": "libs/mongoose-uuid/tsconfig.lib.json"
       }
-    },
-    "mongoose-eloquent": {
-      "type": "library",
-      "root": "libs/mongoose-eloquent",
-      "entryFile": "index",
-      "sourceRoot": "libs/mongoose-eloquent/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/mongoose-eloquent/tsconfig.lib.json"
-      }
     }
   },
   "compilerOptions": {

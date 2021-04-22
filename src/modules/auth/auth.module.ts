@@ -11,6 +11,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthService } from './services/auth.service';
 import { ApikeyStrategy } from './strategies/apikey.strategy';
 import { AuthController } from './controllers/auth.controller';
+import { AccountModule } from '../account/account.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { AuthController } from './controllers/auth.controller';
     }),
     UserModule,
     CommonModule,
+    AccountModule,
   ],
   providers: [PassportModule, JwtStrategy, ApikeyStrategy, AuthService],
   controllers: [AuthController],
