@@ -8,6 +8,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ComplaintModule } from './modules/complaint/complaint.module';
 import { AccountModule } from './modules/account/account.module';
 import { SeedsModule } from './commands/seeds/seed.module';
+import { AclModule } from './modules/acl/acl.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SeedsModule } from './commands/seeds/seed.module';
     AuthModule,
     ComplaintModule,
     AccountModule,
+    AclModule,
   ],
 })
 export class AppModule {}

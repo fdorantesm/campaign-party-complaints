@@ -17,6 +17,12 @@
       ],
       "@app/mongoose-uuid/*": [
         "libs/mongoose-uuid/src/*"
+      ],
+      "@app/casbin": [
+        "libs/casbin/src"
+      ],
+      "@app/casbin/*": [
+        "libs/casbin/src/*"
       ]
     }
   }

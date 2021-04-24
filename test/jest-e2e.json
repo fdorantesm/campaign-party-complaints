@@ -12,6 +12,8 @@
   },
   "moduleNameMapper": {
     "@app/mongoose-uuid/(.*)": "<rootDir>/../libs/mongoose-uuid/src/$1",
-    "@app/mongoose-uuid": "<rootDir>/../libs/mongoose-uuid/src"
+    "@app/mongoose-uuid": "<rootDir>/../libs/mongoose-uuid/src",
+    "@app/casbin/(.*)": "<rootDir>/../libs/casbin/src/$1",
+    "@app/casbin": "<rootDir>/../libs/casbin/src"
   }
 }

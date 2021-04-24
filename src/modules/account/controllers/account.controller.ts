@@ -1,3 +1,5 @@
+import { PaginateResult, Types } from 'mongoose';
+import { UseGuards } from '@nestjs/common';
 import {
   Body,
   Controller,
@@ -7,13 +9,12 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { PaginateResult, Types } from 'mongoose';
 
 import { AccountRegistrationDto } from '../dtos/account-registration.dto';
 import { AccountEntity } from '../entities/account.entity';
 import { AccountService } from '../services/account.service';
 import { AdminType } from '../types/admin.type';
-import { UseGuards } from '@nestjs/common';
+
 import { JwtGuard } from '../../auth/guards/jwt.guard';
 
 @UseGuards(JwtGuard)

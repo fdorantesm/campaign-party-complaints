@@ -10,6 +10,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/mongoose-uuid/tsconfig.lib.json"
       }
+    },
+    "casbin": {
+      "type": "library",
+      "root": "libs/casbin",
+      "entryFile": "index",
+      "sourceRoot": "libs/casbin/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/casbin/tsconfig.lib.json"
+      }
     }
   },
   "compilerOptions": {

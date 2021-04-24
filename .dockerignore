@@ -1,4 +1,4 @@
-**/docker/**
+**/docker
 **/.classpath
 **/.dockerignore
 **/.env
@@ -34,5 +34,6 @@ static
 .eslintrc.js
 .gitignore
 .prettierrc
-README.md
-*.log
+/*.md
+/*.log
+.env.example

@@ -1,21 +1,18 @@
-FROM node:14
+FROM node:14-alpine
 
-WORKDIR /usr/src/app
+RUN npm i -g @nestjs/cli
 
-RUN yarn config set network-timeout 600000 -g
+USER node
+RUN mkdir -p /home/node/app
 
-COPY package.json .
-COPY yarn.lock .
+WORKDIR /home/node/app
 
-RUN yarn global add @nestjs/cli
-RUN yarn install
+COPY package*.json ./
 
-COPY . .
+RUN npm install
 
-# COPY src src
-# COPY test test
-# COPY nest-cli.json .
-# COPY tsconfig.json .
-# COPY tsconfig.build.json .
+COPY ./ ./
 
-RUN yarn build
+RUN npm build
+
+ENTRYPOINT [ "npm", "run", "start:dev"]

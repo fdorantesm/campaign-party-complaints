@@ -15,6 +15,9 @@ import { ServerConfigType } from './modules/config/types/server.type';
 declare const module: any;
 
 async function main() {
+  process.stdout.write(
+    process.platform === 'win32' ? '\x1B[2J\x1B[0f' : '\x1B[2J\x1B[3J\x1B[H',
+  );
   const server = express();
   const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
   const configService: ConfigService = app.get('ConfigService');

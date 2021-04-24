@@ -87,5 +87,6 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
       useClass: TransformInterceptor,
     },
   ],
+  controllers: [],
 })
 export class CoreModule {}
