@@ -36,6 +36,9 @@ export class FileEntity extends Document {
 
   @Prop({ type: String, required: false })
   public url?: string;
+
+  @Prop({ type: Types.ObjectId, required: true })
+  public user: Types.ObjectId;
 }
 
 const FileSchema = SchemaFactory.createForClass(FileEntity);

@@ -1,6 +1,6 @@
 import { Schema, SchemaFactory, Prop, raw } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { GeoJsonPointType, GeoJsonPoint } from '../types/geo-json-point.type';
+import { GeoJsonPointType } from '../types/geo-json-point.type';
 
 @Schema({
   collection: 'complaints',
@@ -59,6 +59,9 @@ export class ComplaintEntity extends Document {
     ]),
   )
   public files?: Types.ObjectId[];
+
+  @Prop({ type: Number, default: 0})
+  public status: number;
 }
 
 const ComplaintSchema = SchemaFactory.createForClass(ComplaintEntity);

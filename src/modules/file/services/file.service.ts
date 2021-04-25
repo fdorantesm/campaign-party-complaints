@@ -19,7 +19,7 @@ export class FileService {
     return this.repository.findOne(params);
   }
 
-  public create(params: CreateFileDto): Promise<FileEntity> {
+  public create(params: Partial<FileEntity>): Promise<FileEntity> {
     return this.repository.create(params);
   }
 

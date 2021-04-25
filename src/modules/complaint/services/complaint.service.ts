@@ -3,7 +3,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { FilterQuery, QueryOptions, PaginateResult } from 'mongoose';
+import { FilterQuery, QueryOptions, PaginateResult, Types } from 'mongoose';
 
 import { MongodbQueryResultType } from '../../common/types/mongodb-query-result.type';
 import { ComplaintEntity } from '../entities/complaint.entity';

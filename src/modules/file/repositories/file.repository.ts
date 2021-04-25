@@ -25,7 +25,7 @@ export class FileRepository {
     return this.model.findOne(params).exec();
   }
 
-  public create(params: CreateFileDto): Promise<FileEntity> {
+  public create(params: Partial<FileEntity>): Promise<FileEntity> {
     return this.model.create(params);
   }
 

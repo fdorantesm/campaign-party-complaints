@@ -23,6 +23,7 @@ import { UpdateComplaintDto } from '../dtos/update-complaint.dto';
 import { ComplaintEntity } from '../entities/complaint.entity';
 import { ComplaintService } from '../services/complaint.service';
 import { QueryParser } from '../../core/decorators/query-parser.decorator';
+import { BodyParser } from '../../core/decorators/body-parser.decorator';
 
 @UseGuards(JwtGuard)
 @Controller('/complaints')
@@ -47,7 +48,7 @@ export class ComplaintController {
 
   @Post('/')
   public create(
-    @Body() complaint: CreateComplaintDto,
+    @BodyParser() complaint: CreateComplaintDto,
     @QueryParser('options') options: QueryOptions,
   ): Promise<ComplaintEntity> {
     return this.complaintService.create(complaint, options);

@@ -21,10 +21,12 @@ export class CreateComplaintDto {
 
   @IsMongoId()
   @IsOptional()
+  @Type(() => Types.ObjectId)
   public state?: Types.ObjectId;
 
   @IsMongoId()
   @IsOptional()
+  @Type(() => Types.ObjectId)
   public city?: Types.ObjectId;
 
   @IsMongoId()
@@ -49,6 +51,11 @@ export class CreateComplaintDto {
   public description?: string;
 
   @IsArray()
+  @IsOptional()
   @Type(() => Types.ObjectId)
   public files?: Types.ObjectId[];
+
+  @IsNumber()
+  @IsOptional()
+  public status?: number;
 }

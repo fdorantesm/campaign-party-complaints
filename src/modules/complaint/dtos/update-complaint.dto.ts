@@ -69,4 +69,8 @@ export class UpdateComplaintDto {
   @IsArray()
   @IsOptional()
   public readonly files?: Types.ObjectId[];
+
+  @IsNumber()
+  @IsOptional()
+  public status?: number;
 }

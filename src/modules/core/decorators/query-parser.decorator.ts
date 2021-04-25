@@ -4,6 +4,7 @@ import { MongooseQueryParser } from 'mongoose-query-parser';
 import { QueryParserInterface } from '../interfaces/query-parser.interface';
 import * as deepPopulate from 'deep-populate';
 import { JsonType } from '../../common/types/json.type';
+import { Types } from 'mongoose';
 
 export const QueryParser = createParamDecorator(
   (data: string, ctx: ExecutionContext) => {
@@ -15,6 +16,16 @@ export const QueryParser = createParamDecorator(
     }
 
     const parsedQuery: JsonType = parser.parse(request.query);
+
+    console.log({ parsedQuery });
+
+    Object.keys(parsedQuery.filter).map((key) => {
+      try {
+        parsedQuery.filter[key] = Types.ObjectId(parsedQuery.filter[key]);
+      } catch (err) {
+        //
+      }
+    });
 
     delete parsedQuery.filter.select;
     delete parsedQuery.filter.page;

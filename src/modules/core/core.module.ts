@@ -23,9 +23,7 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
         const debug = configService.get<boolean>('server.debug');
         const config = configService.get<MongodbConfigType>('mongodb.main');
 
-        if (debug) {
-          mongoose.set('debug', true);
-        }
+        mongoose.set('debug', true);
 
         // TODO: Create function to get uri string
         if (config.port) {
