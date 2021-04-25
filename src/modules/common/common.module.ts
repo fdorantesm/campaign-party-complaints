@@ -1,19 +1,12 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
 
-import { CityEntity, CitySchema } from './entities/city.entity';
-import { StateSchema, StateEntity } from './entities/state.entity';
 import { HashService } from './services/hash.service';
 import { ApiKeyService } from './services/apikey.service';
+import { UuidService } from './uuid-generator/uuid.service';
+import { MimeTypesService } from './mime-types/mime-types.service';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: StateEntity.name, schema: StateSchema },
-      { name: CityEntity.name, schema: CitySchema },
-    ]),
-  ],
-  providers: [HashService, ApiKeyService],
-  exports: [HashService, ApiKeyService],
+  providers: [HashService, ApiKeyService, UuidService, MimeTypesService],
+  exports: [HashService, ApiKeyService, UuidService, MimeTypesService],
 })
 export class CommonModule {}

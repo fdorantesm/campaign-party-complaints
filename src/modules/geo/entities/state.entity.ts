@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema({
   collection: 'states',
-  timestamps: true,
+  timestamps: false,
   autoIndex: true,
 })
 export class StateEntity extends Document {

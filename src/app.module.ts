@@ -8,6 +8,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ComplaintModule } from './modules/complaint/complaint.module';
 import { AccountModule } from './modules/account/account.module';
 import { SeedsModule } from './commands/seeds/seed.module';
+import { PartyModule } from './modules/party/party.module';
+import { FileModule } from './modules/file/file.module';
+import { UploadModule } from './modules/upload/upload.module';
+import { GeoModule } from './modules/geo/geo.module';
 
 @Module({
   imports: [
@@ -19,6 +23,10 @@ import { SeedsModule } from './commands/seeds/seed.module';
     AuthModule,
     ComplaintModule,
     AccountModule,
+    PartyModule,
+    FileModule,
+    UploadModule,
+    GeoModule,
   ],
 })
 export class AppModule {}

@@ -6,8 +6,6 @@ services:
       context: ../..
       dockerfile: docker/development/Dockerfile
     container_name: ${COMPOSE_PROJECT_NAME}_api-backend
-    volumes: 
-      - ../../:/home/node/app
     ports:
       - ${APP_PORT}:${APP_PORT}
     env_file:
@@ -17,10 +15,13 @@ services:
         ipv4_address: ${COMPOSE_LAN_API_BACKEND_IP}
     depends_on: 
       - api-db
-      - api-static
+      # - api-static
     links: 
       - api-db
-      - api-static
+      # - api-static
+    dns: 
+      - 8.8.8.8
+      - 8.8.4.4
 
   api-db:
     container_name: ${COMPOSE_PROJECT_NAME}_api-db
@@ -40,28 +41,28 @@ services:
     logging:
       driver: none
 
-  api-static:
-    container_name: ${COMPOSE_PROJECT_NAME}_api-static
-    image: docker.io/bitnami/minio:2021
-    volumes:
-      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data
-    ports:
-      - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
-    environment:
-      MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
-      MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
-      MINIO_DEFAULT_BUCKETS: default,${API_S3_BUCKET}
-    networks:
-      lan:
-        ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
-    healthcheck:
-      test:
-        ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
-      interval: 30s
-      timeout: 20s
-      retries: 3
-    logging:
-      driver: none
+  # api-static:
+  #   container_name: ${COMPOSE_PROJECT_NAME}_api-static
+  #   image: docker.io/bitnami/minio:2021
+  #   volumes:
+  #     - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data
+  #   ports:
+  #     - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
+  #   environment:
+  #     MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
+  #     MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
+  #     MINIO_DEFAULT_BUCKETS: default,${API_S3_BUCKET}
+  #   networks:
+  #     lan:
+  #       ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
+  #   healthcheck:
+  #     test:
+  #       ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
+  #     interval: 30s
+  #     timeout: 20s
+  #     retries: 3
+  #   logging:
+  #     driver: none
 
 networks:
   lan:
@@ -69,4 +70,4 @@ networks:
     ipam:
       driver: default
       config:
-      - subnet: ${COMPOSE_LAN_SUBNET}
+        - subnet: ${COMPOSE_LAN_SUBNET}

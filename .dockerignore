@@ -28,6 +28,7 @@
 .vscode
 db
 dist
+docker
 node_modules
 static
 .editorconfig
@@ -36,3 +37,4 @@ static
 .prettierrc
 README.md
 *.log
+.env.example

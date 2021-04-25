@@ -8,6 +8,7 @@ export interface QueryParserInterface {
 interface PopulatePath {
   path: string;
   populate: string | PopulatePath;
+  select?: string[];
 }
 
 export interface QueryParserOptionsInterface {

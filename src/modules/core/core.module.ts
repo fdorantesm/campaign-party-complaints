@@ -4,13 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import * as mongoosePaginate from 'mongoose-paginate';
 import { mongooseUuid } from '@app/mongoose-uuid';
-import { S3Module } from 'nestjs-s3';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
-import { mongodbConfigLoader, s3ConfigLoader } from '../config/loaders';
+import { mongodbConfigLoader } from '../config/loaders';
 import { options } from '../config/options/config.options';
 import { MongodbConfigType } from '../config/types/mongodb-config.type';
-import { S3ConfigType } from '../config/types/s3.config.type';
 import { HttpExceptionFilter } from './filters/http-exception.filter';
 import { TransformInterceptor } from './interceptors/transform/transform.interceptor';
 
@@ -56,22 +54,6 @@ import { TransformInterceptor } from './interceptors/transform/transform.interce
             connection.plugin(require('@meanie/mongoose-to-json'));
             connection.plugin(mongooseUuid);
             return connection;
-          },
-        };
-      },
-    }),
-    S3Module.forRootAsync({
-      imports: [ConfigModule.forFeature(s3ConfigLoader)],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const config = configService.get<S3ConfigType>('s3');
-        return {
-          config: {
-            accessKeyId: config.accessKey,
-            secretAccessKey: config.accessSecretKey,
-            endpoint: config.endpoint,
-            s3ForcePathStyle: true,
-            signatureVersion: 'v4',
           },
         };
       },
