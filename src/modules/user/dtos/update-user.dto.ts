@@ -2,22 +2,23 @@ import {
   IsNotEmpty,
   IsPhoneNumber,
   IsString,
-  IsBoolean,
   IsMongoId,
   IsEmail,
   IsOptional,
 } from 'class-validator';
 import { Types } from 'mongoose';
 
-export class CreateAccountUserDto {
+export class UpdateUserDto {
   @IsString()
   @IsNotEmpty()
-  public readonly name: string;
+  @IsOptional()
+  public readonly name?: string;
 
   @IsString()
   @IsNotEmpty()
   @IsEmail()
-  public readonly email: string;
+  @IsOptional()
+  public readonly email?: string;
 
   @IsPhoneNumber()
   @IsOptional()
@@ -25,14 +26,8 @@ export class CreateAccountUserDto {
 
   @IsString()
   @IsNotEmpty()
-  readonly password: string;
-
-  @IsBoolean()
   @IsOptional()
-  readonly enabled?: boolean;
-
-  @IsMongoId()
-  readonly account: Types.ObjectId;
+  readonly password?: string;
 
   @IsMongoId()
   @IsOptional()
@@ -41,11 +36,4 @@ export class CreateAccountUserDto {
   @IsMongoId()
   @IsOptional()
   readonly city?: Types.ObjectId;
-
-  @IsBoolean()
-  @IsOptional()
-  readonly owner?: boolean;
-
-  @IsMongoId()
-  readonly role: Types.ObjectId;
 }

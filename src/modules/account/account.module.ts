@@ -6,6 +6,7 @@ import { AccountService } from './services/account.service';
 import { AccountEntity, AccountSchema } from './entities/account.entity';
 import { UserModule } from '../user/user.module';
 import { AccountController } from './controllers/account.controller';
+import { UserController } from './controllers/user.controller';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { AccountController } from './controllers/account.controller';
   ],
   providers: [AccountRepository, AccountService],
   exports: [AccountService],
-  controllers: [AccountController],
+  controllers: [UserController, AccountController],
 })
 export class AccountModule {}

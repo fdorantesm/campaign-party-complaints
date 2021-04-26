@@ -9,7 +9,7 @@ import {
 } from 'class-validator';
 import { Types } from 'mongoose';
 
-export class CreateAccountUserDto {
+export class AddUserDto {
   @IsString()
   @IsNotEmpty()
   public readonly name: string;
@@ -27,13 +27,6 @@ export class CreateAccountUserDto {
   @IsNotEmpty()
   readonly password: string;
 
-  @IsBoolean()
-  @IsOptional()
-  readonly enabled?: boolean;
-
-  @IsMongoId()
-  readonly account: Types.ObjectId;
-
   @IsMongoId()
   @IsOptional()
   readonly state?: Types.ObjectId;
@@ -41,11 +34,4 @@ export class CreateAccountUserDto {
   @IsMongoId()
   @IsOptional()
   readonly city?: Types.ObjectId;
-
-  @IsBoolean()
-  @IsOptional()
-  readonly owner?: boolean;
-
-  @IsMongoId()
-  readonly role: Types.ObjectId;
 }

@@ -8,16 +8,15 @@ import {
   Post,
 } from '@nestjs/common';
 import { PaginateResult, Types } from 'mongoose';
+import { UseGuards } from '@nestjs/common';
 
 import { AccountRegistrationDto } from '../dtos/account-registration.dto';
 import { AccountEntity } from '../entities/account.entity';
 import { AccountService } from '../services/account.service';
 import { AdminType } from '../types/admin.type';
-import { UseGuards } from '@nestjs/common';
 import { JwtGuard } from '../../auth/guards/jwt.guard';
-import { RolesGuard } from 'src/modules/auth/guards/roles.guard';
-import { Roles } from 'src/modules/core/decorators/roles.decorator';
-import { BodyParser } from 'src/modules/core/decorators/body-parser.decorator';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { Roles } from '../../core/decorators/roles.decorator';
 
 @UseGuards(JwtGuard)
 @Controller('/accounts')
