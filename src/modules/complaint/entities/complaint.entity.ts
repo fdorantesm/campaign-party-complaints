@@ -60,8 +60,11 @@ export class ComplaintEntity extends Document {
   )
   public files?: Types.ObjectId[];
 
-  @Prop({ type: Number, default: 0})
+  @Prop({ type: Number, default: 0 })
   public status: number;
+
+  @Prop({ type: Types.ObjectId, ref: 'UserEntity' })
+  public user: Types.ObjectId;
 }
 
 const ComplaintSchema = SchemaFactory.createForClass(ComplaintEntity);

@@ -12,6 +12,7 @@ import { UpdateComplaintDto } from '../dtos/update-complaint.dto';
 import { CityService } from '../../geo/services/city.service';
 import { StateService } from '../../geo/services/state.service';
 import { FileService } from '../../file/services/file.service';
+import { CreateComplaintDto } from '../dtos/create-complaint.dto';
 
 @Injectable()
 export class ComplaintService {
@@ -36,10 +37,8 @@ export class ComplaintService {
     return this.repository.findOne(filter, options);
   }
 
-  public create(data: Partial<ComplaintEntity>, options?: QueryOptions) {
-    return this.repository
-      .create(data)
-      .then((result) => this.findOne({ _id: result._id }, options));
+  public create(data: CreateComplaintDto): Promise<ComplaintEntity> {
+    return this.repository.create(data);
   }
 
   public async update(

@@ -9,6 +9,7 @@ import { PartyService } from './services/party.service';
 import { PositionService } from './services/position.service';
 import { PartyController } from './controllers/party.controller';
 import { PositionController } from './controllers/position.controller';
+import { UserModule } from '../user/user.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { PositionController } from './controllers/position.controller';
       { name: PartyEntity.name, schema: PartySchema },
       { name: PositionEntity.name, schema: PositionSchema },
     ]),
+    UserModule,
   ],
   providers: [
     PartyService,

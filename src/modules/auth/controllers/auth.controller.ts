@@ -14,6 +14,7 @@ import { RegisterDto } from '../dtos/register.dto';
 import { AuthService } from '../services/auth.service';
 import { JwtPayload } from '../types/jwt-payload.type';
 import { JwtGuard } from '../guards/jwt.guard';
+import { AdminType } from '../../account/types/admin.type';
 
 @Controller('/auth')
 export class AuthController {

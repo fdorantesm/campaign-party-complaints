@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
+import { GeoController } from './controllers/geo.controller';
 import { CityEntity, CitySchema } from './entities/city.entity';
 import { StateEntity, StateSchema } from './entities/state.entity';
 import { CityRepository } from './repositories/city.repository';
@@ -17,5 +18,6 @@ import { StateService } from './services/state.service';
   ],
   providers: [StateService, CityService, StateRepository, CityRepository],
   exports: [StateService, CityService],
+  controllers: [GeoController],
 })
 export class GeoModule {}

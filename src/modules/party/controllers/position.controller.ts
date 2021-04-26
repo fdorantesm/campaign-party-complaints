@@ -10,6 +10,7 @@ import {
   HttpCode,
 } from '@nestjs/common';
 import { Types, UpdateWriteOpResult } from 'mongoose';
+import { Roles } from 'src/modules/core/decorators/roles.decorator';
 import { JwtGuard } from '../../auth/guards/jwt.guard';
 import { CreatePositionDto } from '../dtos/create-position.dto';
 import { PositionEntity } from '../entities/position.entity';
@@ -30,12 +31,14 @@ export class PositionController {
   }
 
   @UseGuards(JwtGuard)
+  @Roles('admin')
   @Post('/')
   public create(@Body() complaint: CreatePositionDto): Promise<PositionEntity> {
     return this.positionService.create(complaint);
   }
 
   @UseGuards(JwtGuard)
+  @Roles('admin')
   @Patch('/:id')
   public update(
     @Param('id') _id: Types.ObjectId,
@@ -45,6 +48,7 @@ export class PositionController {
   }
 
   @UseGuards(JwtGuard)
+  @Roles('admin')
   @Delete('/:id')
   @HttpCode(204)
   public async delete(@Param('id') _id: Types.ObjectId): Promise<void> {

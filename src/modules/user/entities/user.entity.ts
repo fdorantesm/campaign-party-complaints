@@ -47,12 +47,12 @@ export class UserEntity extends Document {
 
   @Prop({ type: Types.ObjectId, ref: 'CityEntity' })
   public city?: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'RoleEntity' })
+  public role: Types.ObjectId;
 }
 
 const UserSchema = SchemaFactory.createForClass(UserEntity);
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-UserSchema.plugin(require('mongoose-beautiful-unique-validation'));
 
 UserSchema.index({ email: 1 }, { unique: true });
 

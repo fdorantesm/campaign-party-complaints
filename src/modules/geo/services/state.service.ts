@@ -12,7 +12,7 @@ export class StateService {
   public find(
     filter?: FilterQuery<StateEntity>,
     options?: QueryOptions,
-  ): Promise<PaginateResult<StateEntity>> {
+  ): Promise<StateEntity[]> {
     return this.repository.find(filter, options);
   }
 

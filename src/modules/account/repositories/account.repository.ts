@@ -9,6 +9,7 @@ import {
 
 import { JsonType } from '../../common/types/json.type';
 import { MongodbQueryResultType } from '../../common/types/mongodb-query-result.type';
+import { AccountBootstrapDto } from '../dtos/account-start.dto';
 import { AccountEntity } from '../entities/account.entity';
 
 @Injectable()

@@ -18,6 +18,14 @@ export class UserService {
     private readonly configService: ConfigService,
   ) {}
 
+  public find(
+    filter?: FilterQuery<UserEntity>,
+    projection?: JsonType,
+    options?: QueryOptions,
+  ): Promise<UserEntity[]> {
+    return this.userRepository.find(filter, projection, options);
+  }
+
   public findOne(
     filter?: FilterQuery<UserEntity>,
     projection?: JsonType,
@@ -38,5 +46,9 @@ export class UserService {
     options?: QueryOptions,
   ): Promise<MongodbQueryResultType> {
     return this.userRepository.deleteMany(filter, options);
+  }
+
+  public count(filter?: FilterQuery<UserEntity>): Promise<number> {
+    return this.userRepository.count(filter);
   }
 }

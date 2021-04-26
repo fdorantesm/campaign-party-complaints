@@ -3,12 +3,11 @@ import {
   NestInterceptor,
   ExecutionContext,
   CallHandler,
-  HttpException,
-  HttpStatus
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { type } from 'ramda';
+import { JsonType } from 'src/modules/common/types/json.type';
 
 export interface Response<T> {
   statusCode: number;
@@ -20,11 +19,12 @@ export class TransformInterceptor<T>
   implements NestInterceptor<T, Response<T>> {
   intercept(
     context: ExecutionContext,
-    next: CallHandler
+    next: CallHandler,
   ): Observable<Response<T>> {
     return next.handle().pipe(
-      map((data?: any) => {
+      map((data?: string | number | JsonType) => {
         const response = context.switchToHttp().getResponse();
+
         if (data === undefined) {
           response.status(204);
           return;
@@ -32,12 +32,13 @@ export class TransformInterceptor<T>
           response.status(404);
           return;
         }
+
         return {
+          data,
           statusCode: context.switchToHttp().getResponse().statusCode,
           type: type(data),
-          data
         };
-      })
+      }),
     );
   }
 }

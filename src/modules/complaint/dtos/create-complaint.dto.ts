@@ -7,6 +7,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  IsNumber
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { GeoJsonPointType, GeoJsonPoint } from '../types/geo-json-point.type';

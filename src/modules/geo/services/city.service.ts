@@ -12,7 +12,7 @@ export class CityService {
   public find(
     filter?: FilterQuery<CityEntity>,
     options?: QueryOptions,
-  ): Promise<PaginateResult<CityEntity>> {
+  ): Promise<CityEntity[]> {
     return this.repository.find(filter, options);
   }
 

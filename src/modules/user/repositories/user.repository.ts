@@ -13,6 +13,14 @@ export class UserRepository {
     private readonly model: PaginateModel<UserEntity>,
   ) {}
 
+  public find(
+    filter?: FilterQuery<UserEntity>,
+    projection?: JsonType,
+    options?: QueryOptions,
+  ): Promise<UserEntity[]> {
+    return this.model.find(filter, projection, options).exec();
+  }
+
   public findOne(
     filter?: FilterQuery<UserEntity>,
     projection?: JsonType,
@@ -30,5 +38,9 @@ export class UserRepository {
     options?: QueryOptions,
   ): Promise<MongodbQueryResultType> {
     return this.model.deleteMany(filter, options).exec();
+  }
+
+  public count(filter?: FilterQuery<UserEntity>): Promise<number> {
+    return this.model.countDocuments(filter).exec();
   }
 }

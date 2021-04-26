@@ -17,8 +17,6 @@ export const QueryParser = createParamDecorator(
 
     const parsedQuery: JsonType = parser.parse(request.query);
 
-    console.log({ parsedQuery });
-
     Object.keys(parsedQuery.filter).map((key) => {
       try {
         parsedQuery.filter[key] = Types.ObjectId(parsedQuery.filter[key]);

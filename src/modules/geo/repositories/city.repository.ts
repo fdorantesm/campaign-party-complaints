@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import {
   FilterQuery,
+  Model,
   PaginateModel,
   PaginateResult,
   QueryOptions,
@@ -14,14 +15,15 @@ import { CityEntity } from '../entities/city.entity';
 export class CityRepository {
   constructor(
     @InjectModel(CityEntity.name)
-    private readonly model: PaginateModel<CityEntity>,
+    private readonly model: Model<CityEntity>,
   ) {}
 
   public find(
     filter?: FilterQuery<CityEntity>,
+    projection?: JsonType,
     options?: QueryOptions,
-  ): Promise<PaginateResult<CityEntity>> {
-    return this.model.paginate(filter, options);
+  ): Promise<CityEntity[]> {
+    return this.model.find(filter, projection, options).exec();
   }
 
   public findOne(

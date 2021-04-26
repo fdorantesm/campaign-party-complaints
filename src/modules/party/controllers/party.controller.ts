@@ -14,6 +14,8 @@ import { JwtGuard } from '../../auth/guards/jwt.guard';
 import { CreatePartyDto } from '../dtos/create-party.dto';
 import { PartyEntity } from '../entities/party.entity';
 import { PartyService } from '../services/party.service';
+import { Roles } from '../../core/decorators/roles.decorator';
+import { RolesGuard } from '../../auth/guards/roles.guard';
 
 @Controller('/parties')
 export class PartyController {
@@ -30,12 +32,14 @@ export class PartyController {
   }
 
   @UseGuards(JwtGuard)
+  @Roles('admin')
   @Post('/')
   public create(@Body() complaint: CreatePartyDto): Promise<PartyEntity> {
     return this.partyService.create(complaint);
   }
 
   @UseGuards(JwtGuard)
+  @Roles('admin')
   @Patch('/:id')
   public update(
     @Param('id') _id: Types.ObjectId,
@@ -45,6 +49,7 @@ export class PartyController {
   }
 
   @UseGuards(JwtGuard)
+  @Roles('admin')
   @Delete('/:id')
   @HttpCode(204)
   public async delete(@Param('id') _id: Types.ObjectId): Promise<void> {

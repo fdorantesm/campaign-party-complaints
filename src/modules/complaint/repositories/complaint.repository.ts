@@ -12,6 +12,7 @@ import { ComplaintEntity } from '../entities/complaint.entity';
 import { JsonType } from '../../common/types/json.type';
 import { MongodbQueryResultType } from '../../common/types/mongodb-query-result.type';
 import { QueryParserOptionsInterface } from '../../core/interfaces/query-parser.interface';
+import { CreateComplaintDto } from '../dtos/create-complaint.dto';
 
 @Injectable()
 export class ComplaintRepository {
@@ -43,7 +44,7 @@ export class ComplaintRepository {
     return query.exec();
   }
 
-  public create(data: Partial<ComplaintEntity>) {
+  public create(data: CreateComplaintDto) {
     return this.model.create(data);
   }
 

@@ -12,6 +12,7 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ServerConfigType } from './modules/config/types/server.type';
 
+
 declare const module: any;
 
 async function main() {

@@ -15,12 +15,15 @@ import { AccountRegistrationDto } from '../dtos/account-registration.dto';
 import { UserEntity } from '../../user/entities/user.entity';
 import { AdminType } from '../types/admin.type';
 import { AccountSeederDto } from '../dtos/account-seeder.dto';
+import { AccountBootstrapDto } from '../dtos/account-start.dto';
+import { RoleService } from '../../user/services/role.service';
 
 @Injectable()
 export class AccountService {
   constructor(
     private readonly repository: AccountRepository,
     private readonly userService: UserService,
+    private readonly roleService: RoleService,
   ) {}
 
   public find(
@@ -45,14 +48,18 @@ export class AccountService {
       throw new ConflictException('EMAIL_ALREADY_REGISTERED');
     }
 
+    const customerRole = await this.roleService.findOne({ code: 'CUSTOMER' });
+
     const base: any = {
       state: data.state,
       city: data.city,
     };
+
     const account = await this.repository.create({
       ...base,
-      name: data.name,
+      name: data.account,
     });
+
     const user = await this.userService.create({
       ...base,
       name: data.name,
@@ -62,6 +69,7 @@ export class AccountService {
       phone: data.phone,
       enabled: true,
       password: data.password,
+      role: customerRole._id,
     });
     return { account, user };
   }
@@ -69,6 +77,39 @@ export class AccountService {
   public async seed(data: AccountSeederDto): Promise<AccountEntity> {
     const account = await this.repository.create(data);
     return account;
+  }
+
+  public async init(data: AccountBootstrapDto): Promise<AdminType> {
+    try {
+      const account = await this.repository.create({
+        name: data.account,
+      });
+
+      try {
+        const roles = await this.roleService.seed([
+          { name: 'Administrador', code: 'ADMIN' },
+          { name: 'Cliente', code: 'CUSTOMER' },
+          { name: 'Usuario', code: 'USER' },
+        ]);
+        const adminRole = roles.find((role) => role.code === 'ADMIN');
+
+        const user = await this.userService.create({
+          account: account._id,
+          name: data.name,
+          email: data.email,
+          password: data.password,
+          enabled: true,
+          owner: true,
+          role: adminRole._id,
+        });
+        return { account, user };
+      } catch (err) {
+        console.log(err.message);
+        throw new InternalServerErrorException('UNKNOWN_ERROR');
+      }
+    } catch {
+      throw new InternalServerErrorException('UNKNOWN_ERROR');
+    }
   }
 
   public async delete(
