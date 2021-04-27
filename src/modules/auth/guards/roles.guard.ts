@@ -21,7 +21,6 @@ export class RolesGuard implements CanActivate {
     }
 
     const role = await this.roleService.findOne({ _id: user?.role });
-    console.log(roles, role.code);
     return roles.includes(role?.code?.toLocaleLowerCase());
   }
 }

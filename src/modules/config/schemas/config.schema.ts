@@ -14,7 +14,7 @@ export const configSchema = Joi.object({
   API_MONGODB_PASSWORD: Joi.string(),
   API_MONGODB_DATABASE: Joi.string().required(),
   JWT_SECRET: Joi.string().default('secret'),
-  JWT_EXPIRES: Joi.string().default('365d'),
+  JWT_EXPIRES: Joi.number().default(3600),
   JWT_SALTS: Joi.number().default(10),
   API_S3_BUCKET: Joi.string(),
   API_S3_ENDPOINT: Joi.string().uri().optional(),

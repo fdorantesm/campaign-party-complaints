@@ -1,5 +1,5 @@
 export type JwtConfigType = {
   secret: string;
-  expires: string;
+  expires: string | number;
   salts: number;
 };

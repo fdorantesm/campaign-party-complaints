@@ -104,7 +104,6 @@ export class AccountService {
         });
         return { account, user };
       } catch (err) {
-        console.log(err.message);
         throw new InternalServerErrorException('UNKNOWN_ERROR');
       }
     } catch {

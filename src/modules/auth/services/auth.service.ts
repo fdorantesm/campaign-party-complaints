@@ -12,12 +12,12 @@ import { TokenPayloadType } from '../types/token-payload.type';
 import { JwtPayload } from '../types/jwt-payload.type';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
-import { FilterQuery, LeanDocument } from 'mongoose';
+import { LeanDocument } from 'mongoose';
 import { AccountService } from '../../account/services/account.service';
 import { AccountBootstrapDto } from 'src/modules/account/dtos/account-start.dto';
-import { AccountEntity } from 'src/modules/account/entities/account.entity';
 import { AdminType } from 'src/modules/account/types/admin.type';
 import { RoleService } from 'src/modules/user/services/role.service';
+import { TokenService } from './token.service';
 
 @Injectable()
 export class AuthService {
@@ -27,6 +27,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
     private readonly accountService: AccountService,
     private readonly roleService: RoleService,
+    private readonly tokenService: TokenService,
   ) {}
   public async login(data: LoginDto): Promise<JwtPayload> {
     const user = await this.userService.findOne(
@@ -37,17 +38,31 @@ export class AuthService {
         account: 1,
       },
     );
+
     if (user) {
       const match = await this.hashService.match(data.password, user.password);
       if (match) {
+        const token = await this.tokenService.find({
+          type: 'login',
+          user: user._id,
+        });
+        if (token) {
+          Logger.log(`${user.id} loggin attemp`, 'AuthService');
+          throw new UnauthorizedException('CURRENT_ACTIVE_SESSION');
+        }
         const payload: TokenPayloadType = {
           id: user.id,
           account: user.account,
           role: user.role,
         };
-        const accessToken = await this.createToken(payload);
+        const session = await this.createToken(payload);
         Logger.log(`${user.id} logged in`, 'AuthService');
-        return accessToken;
+        await this.tokenService.create({
+          type: 'login',
+          user: user._id,
+          token: session.accessToken,
+        });
+        return session;
       }
     }
 
@@ -96,7 +111,18 @@ export class AuthService {
 
   public async me(request: any): Promise<LeanDocument<UserEntity>> {
     const user = await this.userService.findOne({ _id: request.user.id });
+    user.populate('role');
     return user.toJSON();
+  }
+
+  public async logout(user: TokenPayloadType, token: string): Promise<void> {
+    try {
+      await this.tokenService.create({
+        token,
+        user: user.id,
+        type: 'logout',
+      });
+    } catch {}
   }
 
   private async createToken(payload: TokenPayloadType): Promise<JwtPayload> {
