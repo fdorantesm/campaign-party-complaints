@@ -27,7 +27,7 @@ export const configLoader = (): ConfigType => ({
   },
   jwt: {
     secret: process.env.JWT_SECRET,
-    expires: process.env.JWT_EXPIRES,
+    expires: Number(process.env.JWT_EXPIRES),
     salts: Number(process.env.JWT_SALTS),
   },
   aws: {

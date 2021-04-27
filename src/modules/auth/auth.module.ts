@@ -12,9 +12,16 @@ import { AuthService } from './services/auth.service';
 import { ApikeyStrategy } from './strategies/apikey.strategy';
 import { AuthController } from './controllers/auth.controller';
 import { AccountModule } from '../account/account.module';
+import { TokenService } from './services/token.service';
+import { TokenRepository } from './repositories/token.repository';
+import { MongooseModule } from '@nestjs/mongoose';
+import { TokenEntity, TokenSchema } from './entities/token.entity';
 
 @Module({
   imports: [
+    MongooseModule.forFeature([
+      { name: TokenEntity.name, schema: TokenSchema },
+    ]),
     PassportModule.register({
       defaultStrategy: 'jwt',
     }),
@@ -35,8 +42,15 @@ import { AccountModule } from '../account/account.module';
     CommonModule,
     AccountModule,
   ],
-  providers: [PassportModule, JwtStrategy, ApikeyStrategy, AuthService],
+  providers: [
+    PassportModule,
+    JwtStrategy,
+    ApikeyStrategy,
+    AuthService,
+    TokenService,
+    TokenRepository,
+  ],
   controllers: [AuthController],
-  exports: [AuthService],
+  exports: [AuthService, TokenService],
 })
 export class AuthModule {}

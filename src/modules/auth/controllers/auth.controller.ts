@@ -14,7 +14,10 @@ import { RegisterDto } from '../dtos/register.dto';
 import { AuthService } from '../services/auth.service';
 import { JwtPayload } from '../types/jwt-payload.type';
 import { JwtGuard } from '../guards/jwt.guard';
-import { AdminType } from '../../account/types/admin.type';
+import { Token } from '../decorators/token.decorator';
+import { User } from '../decorators/user.decorator';
+import { TokenPayloadType } from '../types/token-payload.type';
+import { AuthRequestType } from 'src/modules/core/types/auth-request.type';
 
 @Controller('/auth')
 export class AuthController {
@@ -34,7 +37,18 @@ export class AuthController {
 
   @UseGuards(JwtGuard)
   @Get('/me')
-  public me(@Request() req: any): Promise<LeanDocument<UserEntity>> {
+  public me(
+    @Request() req: AuthRequestType,
+  ): Promise<LeanDocument<UserEntity>> {
     return this.authService.me(req);
+  }
+
+  @UseGuards(JwtGuard)
+  @Post('/logout')
+  public logout(
+    @User() user: TokenPayloadType,
+    @Token() token: string,
+  ): Promise<void> {
+    return this.authService.logout(user, token);
   }
 }

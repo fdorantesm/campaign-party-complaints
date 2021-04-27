@@ -1,6 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 
@@ -8,12 +8,14 @@ import { TokenPayloadType } from '../types/token-payload.type';
 import { UserEntity } from '../../user/entities/user.entity';
 import { UserService } from '../../user/services/user.service';
 import { JwtConfigType } from '../../config/types/jwt.config.type';
+import { TokenService } from '../services/token.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private readonly userService: UserService,
     private readonly configService: ConfigService,
+    private readonly tokenService: TokenService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -24,6 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
   async validate(payload: TokenPayloadType): Promise<TokenPayloadType> {
     const user = await this.loadUser(payload.id);
+    await this.validateWhitelist(user.id);
     if (!user) {
       throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
     }
@@ -32,6 +35,17 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       account: user.account,
       role: user.role,
     };
+  }
+
+  private async validateWhitelist(user: string) {
+    const logged = await this.tokenService.find({
+      user: Types.ObjectId(user),
+      type: 'logout',
+    });
+    if (logged) {
+      Logger.log(user, 'Session failer');
+      throw new UnauthorizedException();
+    }
   }
 
   private loadUser(userId: Types.ObjectId): Promise<UserEntity> {

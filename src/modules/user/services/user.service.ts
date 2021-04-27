@@ -9,7 +9,6 @@ import { UserRepository } from '../repositories/user.repository';
 import { JwtConfigType } from '../../config/types/jwt.config.type';
 import { MongodbQueryResultType } from '../../common/types/mongodb-query-result.type';
 import { CreateAccountUserDto } from '../dtos/create-account-user.dto';
-import { option } from 'yargs';
 import { MongoDeletedQueryResult } from 'src/modules/common/interfaces/mongo-deleted-query-result.interface';
 
 @Injectable()
