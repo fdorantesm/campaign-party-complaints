@@ -71,4 +71,14 @@ export class UserRepository {
   ): Promise<MongoDeletedQueryResult> {
     return this.model.deleteOne(filter).exec();
   }
+
+  public getUserData(user: Types.ObjectId): Promise<UserEntity> {
+    return this.model
+      .findOne({ _id: user })
+      .populate('role')
+      .populate('account')
+      .populate('city')
+      .populate('state')
+      .exec();
+  }
 }

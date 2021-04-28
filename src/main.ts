@@ -12,7 +12,6 @@ import { ExpressAdapter } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { ServerConfigType } from './modules/config/types/server.type';
 
-
 declare const module: any;
 
 async function main() {
@@ -21,6 +20,10 @@ async function main() {
   const configService: ConfigService = app.get('ConfigService');
   const appConfig = configService.get<ServerConfigType>('server');
   let httpsOptions: HttpsOptions;
+
+  app.enableCors({
+    origin: '*',
+  });
 
   if (appConfig.securePort) {
     try {

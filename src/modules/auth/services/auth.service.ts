@@ -12,7 +12,7 @@ import { TokenPayloadType } from '../types/token-payload.type';
 import { JwtPayload } from '../types/jwt-payload.type';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from 'src/modules/user/entities/user.entity';
-import { LeanDocument } from 'mongoose';
+import { LeanDocument, Types } from 'mongoose';
 import { AccountService } from '../../account/services/account.service';
 import { AccountBootstrapDto } from 'src/modules/account/dtos/account-start.dto';
 import { AdminType } from 'src/modules/account/types/admin.type';
@@ -48,7 +48,7 @@ export class AuthService {
         });
         if (token) {
           Logger.log(`${user.id} loggin attemp`, 'AuthService');
-          throw new UnauthorizedException('CURRENT_ACTIVE_SESSION');
+          throw new UnauthorizedException('Ya existe una sesión activa');
         }
         const payload: TokenPayloadType = {
           id: user.id,
@@ -66,7 +66,7 @@ export class AuthService {
       }
     }
 
-    throw new UnauthorizedException('INVALID_CREDENTIALS');
+    throw new UnauthorizedException('Datos no válidos');
   }
 
   public async register(data: RegisterDto): Promise<LeanDocument<UserEntity>> {
@@ -106,13 +106,11 @@ export class AuthService {
       });
       return user.toJSON();
     }
-    throw new ConflictException('EMAIL_ALREADY_REGISTERED');
+    throw new ConflictException('El correo ya está registrado');
   }
 
-  public async me(request: any): Promise<LeanDocument<UserEntity>> {
-    const user = await this.userService.findOne({ _id: request.user.id });
-    user.populate('role');
-    return user.toJSON();
+  public async me(user: Types.ObjectId): Promise<UserEntity> {
+    return this.userService.getUserData(user);
   }
 
   public async logout(user: TokenPayloadType, token: string): Promise<void> {

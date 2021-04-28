@@ -37,10 +37,8 @@ export class AuthController {
 
   @UseGuards(JwtGuard)
   @Get('/me')
-  public me(
-    @Request() req: AuthRequestType,
-  ): Promise<LeanDocument<UserEntity>> {
-    return this.authService.me(req);
+  public me(@User() user: TokenPayloadType): Promise<LeanDocument<UserEntity>> {
+    return this.authService.me(user.id);
   }
 
   @UseGuards(JwtGuard)

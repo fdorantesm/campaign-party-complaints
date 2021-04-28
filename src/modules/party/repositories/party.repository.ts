@@ -23,8 +23,8 @@ export class PartyRepository {
   public find(
     filter?: FilterQuery<PartyEntity>,
     options?: QueryOptions,
-  ): Promise<PaginateResult<PartyEntity>> {
-    return this.model.paginate(filter, options);
+  ): Promise<PartyEntity[]> {
+    return this.model.find(filter, options).exec();
   }
 
   public findOne(

@@ -19,7 +19,7 @@ export class PositionService {
   public find(
     filter?: FilterQuery<PositionEntity>,
     options?: QueryOptions,
-  ): Promise<PaginateResult<PositionEntity>> {
+  ): Promise<PositionEntity[]> {
     return this.repository.find(filter, options);
   }
 

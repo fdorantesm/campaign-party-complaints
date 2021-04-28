@@ -44,7 +44,7 @@ export class ComplaintRepository {
     return query.exec();
   }
 
-  public create(data: CreateComplaintDto) {
+  public create(data: Partial<ComplaintEntity>) {
     return this.model.create(data);
   }
 

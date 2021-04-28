@@ -22,7 +22,7 @@ export class PartyController {
   constructor(private readonly partyService: PartyService) {}
 
   @Get('/')
-  public index() {
+  public index(): Promise<PartyEntity[]> {
     return this.partyService.find();
   }
 

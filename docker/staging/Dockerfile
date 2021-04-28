@@ -9,6 +9,10 @@ COPY yarn.lock .
 
 RUN yarn global add @nestjs/cli
 RUN yarn install
+RUN yarn build
+
+RUN rm -rf /usr/src/app/node_modules
+RUN yarn install --production
 
 COPY . .
 

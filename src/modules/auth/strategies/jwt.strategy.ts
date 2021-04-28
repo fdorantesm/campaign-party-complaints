@@ -28,7 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     const user = await this.loadUser(payload.id);
     await this.validateWhitelist(user.id);
     if (!user) {
-      throw new UnauthorizedException('INVALID_ACCESS_TOKEN');
+      throw new UnauthorizedException('Token inválido');
     }
     return {
       id: user._id,

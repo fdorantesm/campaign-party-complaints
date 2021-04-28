@@ -31,14 +31,16 @@ export class UserScopeGuard implements CanActivate {
     switch (userRole) {
       case 'user': {
         if (!isPublicAccount) {
-          request.scope.users = await this.getScopeUsers(request.user.account);
+          const users = await this.getScopeUsers(request.user.account);
+          request.scope.users = users.map((user) => user._id);
         } else {
           request.scope.users = [request.user.id];
         }
         break;
       }
       case 'customer': {
-        request.scope.users = await this.getScopeUsers(request.user.account);
+        const users = await this.getScopeUsers(request.user.account);
+        request.scope.users = users.map((user) => user._id);
         break;
       }
       case 'admin': {

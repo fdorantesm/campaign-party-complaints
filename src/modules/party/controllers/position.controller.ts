@@ -21,7 +21,7 @@ export class PositionController {
   constructor(private readonly positionService: PositionService) {}
 
   @Get('/')
-  public index() {
+  public index(): Promise<PositionEntity[]> {
     return this.positionService.find();
   }
 

@@ -19,7 +19,7 @@ export class PartyService {
   public find(
     filter?: FilterQuery<PartyEntity>,
     options?: QueryOptions,
-  ): Promise<PaginateResult<PartyEntity>> {
+  ): Promise<PartyEntity[]> {
     return this.repository.find(filter, options);
   }
 

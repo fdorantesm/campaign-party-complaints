@@ -23,8 +23,8 @@ export class PositionRepository {
   public find(
     filter?: FilterQuery<PositionEntity>,
     options?: QueryOptions,
-  ): Promise<PaginateResult<PositionEntity>> {
-    return this.model.paginate(filter, options);
+  ): Promise<PositionEntity[]> {
+    return this.model.find(filter, options).exec();
   }
 
   public findOne(

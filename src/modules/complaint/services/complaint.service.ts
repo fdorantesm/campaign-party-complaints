@@ -37,8 +37,24 @@ export class ComplaintService {
     return this.repository.findOne(filter, options);
   }
 
-  public create(data: CreateComplaintDto): Promise<ComplaintEntity> {
-    return this.repository.create(data);
+  public create(
+    data: CreateComplaintDto,
+    user: Types.ObjectId,
+  ): Promise<ComplaintEntity> {
+    const complaint: Partial<ComplaintEntity> = {
+      ...data,
+      user: Types.ObjectId(user.toString()),
+    };
+
+    if (data.city) {
+      complaint.city = Types.ObjectId(complaint.city.toString());
+    }
+
+    if (data.state) {
+      complaint.state = Types.ObjectId(complaint.state.toString());
+    }
+
+    return this.repository.create(complaint);
   }
 
   public async update(
@@ -46,7 +62,7 @@ export class ComplaintService {
     data: UpdateComplaintDto,
     options?: QueryOptions,
   ): Promise<ComplaintEntity> {
-    const complaintData: Partial<ComplaintEntity> = {};
+    let complaintData: Partial<ComplaintEntity> = { ...data };
     const complaint = await this.findOne(filter);
 
     const state = await this.stateService.findOne({
@@ -54,7 +70,7 @@ export class ComplaintService {
     });
 
     if (!state) {
-      throw new BadRequestException('INVALID_STATE');
+      throw new BadRequestException('El estado no es válido');
     }
 
     complaintData.state = state._id;
@@ -66,7 +82,7 @@ export class ComplaintService {
       });
 
       if (!city) {
-        throw new BadRequestException('INVALID_CITY');
+        throw new BadRequestException('La ciudad no es válida');
       }
 
       complaintData.city = city._id;
@@ -100,7 +116,7 @@ export class ComplaintService {
   ): Promise<MongodbQueryResultType> {
     const complaint = await this.findOne(filter);
     if (!complaint) {
-      throw new NotFoundException('RESOURCE_NOT_FOUND');
+      throw new NotFoundException('Recurso no encontrado');
     }
     return this.repository.delete(filter);
   }

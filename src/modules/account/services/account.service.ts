@@ -45,7 +45,7 @@ export class AccountService {
     const userExists = await this.userService.findOne({ email: data.email });
 
     if (userExists) {
-      throw new ConflictException('EMAIL_ALREADY_REGISTERED');
+      throw new ConflictException('El correo ya está registrado');
     }
 
     const customerRole = await this.roleService.findOne({ code: 'CUSTOMER' });
@@ -104,10 +104,14 @@ export class AccountService {
         });
         return { account, user };
       } catch (err) {
-        throw new InternalServerErrorException('UNKNOWN_ERROR');
+        throw new InternalServerErrorException(
+          'Oops, hubo un problema al procesar la petición',
+        );
       }
     } catch {
-      throw new InternalServerErrorException('UNKNOWN_ERROR');
+      throw new InternalServerErrorException(
+        'Oops, hubo un problema al procesar la petición',
+      );
     }
   }
 
@@ -117,12 +121,12 @@ export class AccountService {
   ): Promise<void> {
     const account = await this.repository.findOne(filter);
     if (!account) {
-      throw new NotFoundException('ACCOUNT_NOT_FOUND');
+      throw new NotFoundException('La cuenta no existe');
     }
     const result = await this.repository.delete(filter, options);
     if (result.ok && result.deletedCount > 0) {
       await this.userService.deleteMany({ account: account._id }, options);
     }
-    throw new Error('INTERNAL_SERVER_ERROR');
+    throw new Error('Oops, hubo un problema al procesar la petición');
   }
 }

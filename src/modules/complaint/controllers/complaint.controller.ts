@@ -24,6 +24,8 @@ import { Roles } from '../../core/decorators/roles.decorator';
 import { UserScopeGuard } from 'src/modules/auth/guards/user-scope.guard';
 import { Scope } from 'src/modules/core/decorators/scope.decorator';
 import { AuthRequestType } from 'src/modules/core/types/auth-request.type';
+import { TokenPayloadType } from 'src/modules/auth/types/token-payload.type';
+import { User } from 'src/modules/auth/decorators/user.decorator';
 
 @UseGuards(JwtGuard, RolesGuard)
 @Controller('/complaints')
@@ -64,8 +66,9 @@ export class ComplaintController {
   @Roles('admin', 'customer', 'user')
   public create(
     @Body() complaint: CreateComplaintDto,
+    @User() user: TokenPayloadType,
   ): Promise<ComplaintEntity> {
-    return this.complaintService.create(complaint);
+    return this.complaintService.create(complaint, user.id);
   }
 
   @Patch('/:id')
