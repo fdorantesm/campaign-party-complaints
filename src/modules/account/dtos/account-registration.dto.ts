@@ -23,7 +23,6 @@ export class AccountRegistrationDto {
   @IsMongoId()
   public readonly city: Types.ObjectId;
 
-  @IsPhoneNumber()
   @IsOptional()
   public readonly phone?: string;
 

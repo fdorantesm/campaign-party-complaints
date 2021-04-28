@@ -19,7 +19,6 @@ export class AddUserDto {
   @IsEmail()
   public readonly email: string;
 
-  @IsPhoneNumber()
   @IsOptional()
   readonly phone?: string;
 

@@ -20,7 +20,6 @@ export class UpdateUserDto {
   @IsOptional()
   public readonly email?: string;
 
-  @IsPhoneNumber()
   @IsOptional()
   readonly phone?: string;
 

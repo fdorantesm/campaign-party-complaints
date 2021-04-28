@@ -7,7 +7,7 @@ import {
   Param,
   Post,
 } from '@nestjs/common';
-import { PaginateResult, Types } from 'mongoose';
+import { PaginateResult, QueryOptions, Types } from 'mongoose';
 import { UseGuards } from '@nestjs/common';
 
 import { AccountRegistrationDto } from '../dtos/account-registration.dto';
@@ -17,6 +17,7 @@ import { AdminType } from '../types/admin.type';
 import { JwtGuard } from '../../auth/guards/jwt.guard';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 import { Roles } from '../../core/decorators/roles.decorator';
+import { QueryParser } from 'src/modules/core/decorators/query-parser.decorator';
 
 @UseGuards(JwtGuard)
 @Controller('/accounts')
@@ -26,8 +27,10 @@ export class AccountController {
   @Get('/')
   @UseGuards(JwtGuard, RolesGuard)
   @Roles('admin')
-  public list(): Promise<PaginateResult<AccountEntity>> {
-    return this.accountService.find({ public: false });
+  public list(
+    @QueryParser('options') options: QueryOptions,
+  ): Promise<PaginateResult<AccountEntity>> {
+    return this.accountService.find({ public: false }, options);
   }
 
   @Get('/:id')

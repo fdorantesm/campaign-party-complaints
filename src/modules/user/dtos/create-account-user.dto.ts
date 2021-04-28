@@ -19,7 +19,6 @@ export class CreateAccountUserDto {
   @IsEmail()
   public readonly email: string;
 
-  @IsPhoneNumber()
   @IsOptional()
   readonly phone?: string;
 

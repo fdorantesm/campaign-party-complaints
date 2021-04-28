@@ -17,7 +17,6 @@ export class RegisterDto {
   public readonly email: string;
 
   @IsString()
-  @IsPhoneNumber()
   @IsOptional()
   public readonly phone?: string;
 
