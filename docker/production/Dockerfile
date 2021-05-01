@@ -14,6 +14,6 @@ COPY . .
 
 RUN yarn build
 
-RUN rm -rf src dist node_modules
+RUN rm -rf src
 
 CMD [ "yarn", "start" ]
