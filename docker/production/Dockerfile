@@ -7,13 +7,12 @@ RUN yarn config set network-timeout 600000 -g
 COPY package.json .
 COPY yarn.lock .
 
-RUN yarn global add @nestjs/cli nexe
+RUN yarn global add @nestjs/cli
 RUN yarn install
 
 COPY . .
 
 RUN yarn build
-RUN yarn postbuild
 
 RUN rm -rf src dist node_modules
 
