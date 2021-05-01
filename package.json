@@ -9,7 +9,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
-    "start": "/bin/bash release/app",
+    "start": "npm run start:prod",
     "start:wp": "nest build --webpack --webpackPath webpack-hmr.config.js --watch",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

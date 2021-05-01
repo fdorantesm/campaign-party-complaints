@@ -7,7 +7,7 @@ services:
       dockerfile: docker/production/Dockerfile
     container_name: api-backend
     image: node:14-alpine
-    volumes: 
+    volumes:
       - ../..:/usr/src/app
       - /usr/src/app/node_modules
     ports:
@@ -16,7 +16,6 @@ services:
       - ../../.env
     depends_on:
       - api-static
-
   api-static:
     container_name: api-static
     image: minio/minio
@@ -24,6 +23,7 @@ services:
       - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
     ports:
       - ${COMPOSE_API_STATIC_PORT}:9000
+    command: server /data
     environment:
       MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
       MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
@@ -31,3 +31,11 @@ services:
     networks:
       lan:
         ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
+
+networks:
+  lan:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: ${COMPOSE_LAN_SUBNET}

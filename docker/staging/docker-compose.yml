@@ -4,44 +4,26 @@ services:
   api-backend:
     build:
       context: ../..
-      dockerfile: docker/staging/Dockerfile
+      dockerfile: docker/production/Dockerfile
     container_name: api-backend
     image: node:14-alpine
-    volumes: 
+    volumes:
       - ../..:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${APP_PORT}:${APP_PORT}
     env_file:
       - ../../.env
-    networks:
-      lan:
-        ipv4_address: ${COMPOSE_LAN_API_BACKEND_IP}
-    depends_on: 
-      # - api-db
+    depends_on:
       - api-static
-  # api-db:
-  #   container_name: api-db
-  #   image: mongo:4
-  #   restart: always
-  #   ports:
-  #     - ${API_MONGODB_PORT}:${API_MONGODB_PORT}
-  #   environment:
-  #     - MONGO_INITDB_DATABASE=${API_MONGODB_DATABASE}
-  #     - MONGO_INITDB_ROOT_USERNAME=${API_MONGODB_USER}
-  #     - MONGO_INITDB_ROOT_PASSWORD=${API_MONGODB_PASSWORD}
-  #   volumes:
-  #     - ../../${COMPOSE_API_DB_VOLUMES_BASE_PATH}:/data/db
-  #   networks:
-  #     lan:
-  #       ipv4_address: ${COMPOSE_LAN_API_DB_IP}
   api-static:
     container_name: api-static
-    image: docker.io/bitnami/minio:2021
+    image: minio/minio
     volumes:
       - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
     ports:
       - ${COMPOSE_API_STATIC_PORT}:9000
+    command: server /data
     environment:
       MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
       MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
@@ -49,12 +31,21 @@ services:
     networks:
       lan:
         ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
-    healthcheck:
-      test:
-        ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
-      interval: 30s
-      timeout: 20s
-      retries: 3
+  api-db:
+    container_name: api-db
+    image: mongo:4
+    restart: always
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=${API_MONGODB_DATABASE}
+      - MONGO_INITDB_ROOT_USERNAME=${API_MONGODB_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${API_MONGODB_PASSWORD}
+    volumes:
+      - ../../${COMPOSE_API_DB_VOLUMES_BASE_PATH}:/data/db
+    networks:
+      lan:
+        ipv4_address: ${COMPOSE_LAN_API_DB_IP}
 networks:
   lan:
     driver: bridge
