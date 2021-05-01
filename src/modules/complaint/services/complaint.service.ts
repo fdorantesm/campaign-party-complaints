@@ -4,6 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { FilterQuery, QueryOptions, PaginateResult, Types } from 'mongoose';
+import * as csv from 'fast-csv';
 
 import { MongodbQueryResultType } from '../../common/types/mongodb-query-result.type';
 import { ComplaintEntity } from '../entities/complaint.entity';
@@ -120,4 +121,31 @@ export class ComplaintService {
     }
     return this.repository.delete(filter);
   }
+
+  // public csv(
+  //   filter?: FilterQuery<ComplaintEntity>,
+  //   options?: QueryOptions,
+  // ): Promise<any> {
+  //   const rows = this.repository.csv(filter, options);
+  //   // const csvStream = csv.format({ headers: true });
+  //   console.log(rows);
+  //   // rows.map((row) => {
+  //   //   csvStream.write({
+  //   //     tipo:
+  //   //       row.complaintType === 'act'
+  //   //         ? 'Acto irregular'
+  //   //         : 'Gastos de campaña',
+  //   //     cargo: row.positon.name,
+  //   //     candidato: row.candidate,
+  //   //     partido: row.party,
+  //   //     state: row.state.name,
+  //   //     city: row.city.name,
+  //   //     archivos: row.files.join(','),
+  //   //     descripcion: row.description,
+  //   //     fecha: row.eventDateTime,
+  //   //   });
+  //   // });
+  //   // csvStream.pipe(process.stdout).on('end', () => Promise.resolve());
+  //   // csvStream.end();
+  // }
 }

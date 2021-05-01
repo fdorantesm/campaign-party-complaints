@@ -90,4 +90,15 @@ export class ComplaintController {
   ): Promise<void> {
     await this.complaintService.delete({ _id, ...req.scope });
   }
+
+  // @Get('/csv')
+  // @Roles('admin', 'customer', 'user')
+  // @UseGuards(JwtGuard, RolesGuard, AccountScopeGuard)
+  // public async csv(
+  //   @QueryParser('filter') filter: FilterQuery<ComplaintEntity>,
+  //   @QueryParser('options') options: QueryOptions,
+  //   @Request() req: AuthRequestType,
+  // ): Promise<ComplaintEntity[]> {
+  //   return this.complaintService.csv({ ...filter, ...req.scope }, options);
+  // }
 }

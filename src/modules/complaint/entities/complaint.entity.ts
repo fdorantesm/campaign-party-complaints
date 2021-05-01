@@ -68,6 +68,18 @@ export class ComplaintEntity extends Document {
 
   @Prop({ type: String, enum: ['act', 'expenses'], required: true })
   public complaintType: 'act' | 'expenses';
+
+  @Prop({ type: String })
+  public place: string;
+
+  @Prop({ type: String, required: false })
+  public informerName?: string;
+
+  @Prop({ type: String, required: false })
+  public informerEmail?: string;
+
+  @Prop({ type: String, required: false })
+  public informerPhone?: string;
 }
 
 const ComplaintSchema = SchemaFactory.createForClass(ComplaintEntity);

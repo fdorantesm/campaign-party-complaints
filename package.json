@@ -7,7 +7,6 @@
   "license": "UNLICENSED",
   "scripts": {
     "prebuild": "rimraf dist",
-    "postbuild": "nexe dist/main.js -r ./node_modules -o ./release/app -t linux-x64-12.16.2",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "/bin/bash release/app",
@@ -46,6 +45,7 @@
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
     "deep-populate": "^1.0.0",
+    "fast-csv": "^4.3.6",
     "flat": "^5.0.2",
     "mongoose": "^5.12.5",
     "mongoose-beautiful-unique-validation": "^7.1.1",

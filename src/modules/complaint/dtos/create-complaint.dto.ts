@@ -63,4 +63,20 @@ export class CreateComplaintDto {
   @IsString()
   @IsNotEmpty()
   public complaintType: 'act' | 'expenses';
+
+  @IsString()
+  @IsOptional()
+  public place: string;
+
+  @IsString()
+  @IsOptional()
+  public informerName?: string;
+
+  @IsString()
+  @IsOptional()
+  public informerEmail?: string;
+
+  @IsString()
+  @IsOptional()
+  public informerPhone?: string;
 }

@@ -72,4 +72,20 @@ export class UpdateComplaintDto {
   @IsNumber()
   @IsOptional()
   public status?: number;
+
+  @IsString()
+  @IsOptional()
+  public place: string;
+
+  @IsString()
+  @IsOptional()
+  public informerName?: string;
+
+  @IsString()
+  @IsOptional()
+  public informerEmail?: string;
+
+  @IsString()
+  @IsOptional()
+  public informerPhone?: string;
 }

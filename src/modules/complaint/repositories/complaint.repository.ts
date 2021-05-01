@@ -61,4 +61,17 @@ export class ComplaintRepository {
   ): Promise<MongodbQueryResultType> {
     return this.model.deleteOne(filter).exec();
   }
+
+  public csv(
+    filter?: FilterQuery<ComplaintEntity>,
+    options?: QueryOptions,
+  ): Promise<ComplaintEntity[]> {
+    return this.model
+      .find()
+      .populate('city')
+      .populate('state')
+      .populate('position')
+      .populate('files')
+      .exec();
+  }
 }
