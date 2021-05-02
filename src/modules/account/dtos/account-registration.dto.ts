@@ -18,9 +18,11 @@ export class AccountRegistrationDto {
   public readonly name: string;
 
   @IsMongoId()
+  @IsOptional()
   public readonly state: Types.ObjectId;
 
   @IsMongoId()
+  @IsOptional()
   public readonly city: Types.ObjectId;
 
   @IsOptional()
