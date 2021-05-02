@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+  ValidateIf,
 } from 'class-validator';
 import { Types } from 'mongoose';
 
@@ -17,13 +18,15 @@ export class AccountRegistrationDto {
   @IsNotEmpty()
   public readonly name: string;
 
+  @ValidateIf((o) => o.state !== null)
   @IsMongoId()
   @IsOptional()
-  public readonly state: Types.ObjectId;
+  public readonly state?: Types.ObjectId;
 
+  @ValidateIf((o) => o.city !== null)
   @IsMongoId()
   @IsOptional()
-  public readonly city: Types.ObjectId;
+  public readonly city?: Types.ObjectId;
 
   @IsOptional()
   public readonly phone?: string;
