@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { FilterQuery, PaginateResult, QueryOptions } from 'mongoose';
+import { FilterQuery, PaginateResult, QueryOptions, Types } from 'mongoose';
 import { JsonType } from 'src/modules/common/types/json.type';
 
 import { AccountEntity } from '../entities/account.entity';
@@ -51,8 +51,8 @@ export class AccountService {
     const customerRole = await this.roleService.findOne({ code: 'CUSTOMER' });
 
     const base: any = {
-      state: data.state,
-      city: data.city,
+      state: Types.ObjectId(data.state),
+      city: Types.ObjectId(data.city),
     };
 
     const account = await this.repository.create({
