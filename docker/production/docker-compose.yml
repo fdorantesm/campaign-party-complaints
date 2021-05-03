@@ -8,7 +8,6 @@ services:
     container_name: api-backend
     image: node:14-alpine
     volumes:
-      - ../..:/usr/src/app
       - /usr/src/app/node_modules
     ports:
       - ${APP_PORT}:${APP_PORT}

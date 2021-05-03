@@ -14,6 +14,4 @@ COPY . .
 
 RUN yarn build
 
-RUN rm -rf src
-
 CMD [ "yarn", "start" ]
