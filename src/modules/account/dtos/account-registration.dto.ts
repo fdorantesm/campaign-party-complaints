@@ -18,13 +18,15 @@ export class AccountRegistrationDto {
   @IsNotEmpty()
   public readonly name: string;
 
+  @IsMongoId()
+  @IsOptional()
   @ValidateIf((o) => o.state !== null)
-  @IsOptional()
-  public readonly state?: string;
+  public readonly state?: Types.ObjectId;
 
-  @ValidateIf((o) => o.city !== null)
+  @IsMongoId()
   @IsOptional()
-  public readonly city?: string;
+  @ValidateIf((o) => o.city !== null)
+  public readonly city?: Types.ObjectId;
 
   @IsOptional()
   public readonly phone?: string;

@@ -23,6 +23,7 @@ import { AddUserDto } from 'src/modules/user/dtos/add-user.dto';
 import { AuthRequestType } from 'src/modules/core/types/auth-request.type';
 import { UpdateUserDto } from 'src/modules/user/dtos/update-user.dto';
 import { RoleService } from 'src/modules/user/services/role.service';
+import { AccountService } from 'src/modules/account/services/account.service';
 
 @UseGuards(JwtGuard)
 @Controller('/accounts/:account/users')
@@ -62,7 +63,19 @@ export class UserController {
     @Body() user: AddUserDto,
     @Request() req: AuthRequestType,
   ): Promise<UserEntity> {
-    const role = await this.roleService.findOne({ code: 'USER' });
+    const parentRole = await this.roleService.findOne(req.user.role);
+    let presetRoleCode;
+
+    switch (parentRole.code) {
+      case 'ADMIN':
+        presetRoleCode = 'ADMIN';
+        break;
+      case 'CUSTOMER':
+        presetRoleCode = 'USER';
+        break;
+    }
+
+    const role = await this.roleService.findOne({ code: presetRoleCode });
     return this.userService.create({
       ...user,
       account: req.user.account,

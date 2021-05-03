@@ -51,8 +51,8 @@ export class AccountService {
     const customerRole = await this.roleService.findOne({ code: 'CUSTOMER' });
 
     const base: any = {
-      state: Types.ObjectId(data.state),
-      city: Types.ObjectId(data.city),
+      state: data.state,
+      city: data.city,
     };
 
     const account = await this.repository.create({
@@ -119,14 +119,17 @@ export class AccountService {
     filter?: FilterQuery<AccountEntity>,
     options?: QueryOptions,
   ): Promise<void> {
-    const account = await this.repository.findOne(filter);
-    if (!account) {
-      throw new NotFoundException('La cuenta no existe');
+    try {
+      const account = await this.repository.findOne(filter);
+      if (!account) {
+        throw new NotFoundException('La cuenta no existe');
+      }
+      const result = await this.repository.delete(filter, options);
+      if (result.ok && result.deletedCount > 0) {
+        await this.userService.deleteMany({ account: account._id }, options);
+      }
+    } catch (err) {
+      throw new Error('Oops, hubo un problema al procesar la petición');
     }
-    const result = await this.repository.delete(filter, options);
-    if (result.ok && result.deletedCount > 0) {
-      await this.userService.deleteMany({ account: account._id }, options);
-    }
-    throw new Error('Oops, hubo un problema al procesar la petición');
   }
 }

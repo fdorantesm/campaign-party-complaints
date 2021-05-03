@@ -25,16 +25,20 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: TokenPayloadType): Promise<TokenPayloadType> {
-    const user = await this.loadUser(payload.id);
-    await this.validateWhitelist(user.id);
-    if (!user) {
-      throw new UnauthorizedException('Token inválido');
+    try {
+      const user = await this.loadUser(payload.id);
+      await this.validateWhitelist(user.id);
+      if (!user) {
+        throw new UnauthorizedException('Token inválido');
+      }
+      return {
+        id: user._id,
+        account: user.account,
+        role: user.role,
+      };
+    } catch (err) {
+      throw new UnauthorizedException('Usuario inválido');
     }
-    return {
-      id: user._id,
-      account: user.account,
-      role: user.role,
-    };
   }
 
   private async validateWhitelist(user: string) {
