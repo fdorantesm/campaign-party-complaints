@@ -20,7 +20,7 @@ services:
     container_name: api-static
     image: minio/minio
     volumes:
-      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/minio
+      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data
     ports:
       - ${COMPOSE_API_STATIC_PORT}:9000
     command: server /data

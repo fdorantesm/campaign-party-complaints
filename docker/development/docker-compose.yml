@@ -41,28 +41,23 @@ services:
     logging:
       driver: none
 
-  # api-static:
-  #   container_name: ${COMPOSE_PROJECT_NAME}_api-static
-  #   image: docker.io/bitnami/minio:2021
-  #   volumes:
-  #     - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data
-  #   ports:
-  #     - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
-  #   environment:
-  #     MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
-  #     MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
-  #     MINIO_DEFAULT_BUCKETS: default,${API_S3_BUCKET}
-  #   networks:
-  #     lan:
-  #       ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
-  #   healthcheck:
-  #     test:
-  #       ['CMD', 'curl', '-f', 'http://localhost:$$COMPOSE_API_STATIC_PORT/minio/health/live']
-  #     interval: 30s
-  #     timeout: 20s
-  #     retries: 3
-  #   logging:
-  #     driver: none
+  api-static:
+    container_name: ${COMPOSE_PROJECT_NAME}_api-static
+    image: minio/minio
+    command: server /deta
+    volumes:
+      - ../../${COMPOSE_API_STATIC_VOLUMES_BASE_PATH}:/data
+    ports:
+      - ${COMPOSE_API_STATIC_PORT}:${COMPOSE_API_STATIC_PORT}
+    environment:
+      MINIO_ACCESS_KEY: ${API_S3_ACCESS_KEY}
+      MINIO_SECRET_KEY: ${API_S3_ACCESS_SECRET_KEY}
+      MINIO_DEFAULT_BUCKETS: default,${API_S3_BUCKET}
+    networks:
+      lan:
+        ipv4_address: ${COMPOSE_LAN_API_STATIC_IP}
+    logging:
+      driver: none
 
 networks:
   lan:
