@@ -30,11 +30,11 @@ export class AccountScopeGuard implements CanActivate {
 
     if (filteredRoles.includes(userRole)) {
       if (userAccount.state) {
-        request.scope.state = userAccount.state;
+        request.scope.state = Types.ObjectId(userAccount.state.toString());
       }
 
       if (userAccount.city) {
-        request.scope.city = userAccount.city;
+        request.scope.city = Types.ObjectId(userAccount.city.toString());
       }
     }
 
